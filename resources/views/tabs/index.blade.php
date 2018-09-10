@@ -57,9 +57,19 @@
                 {{$tab->tab_name}}
               </div>
               <div class="col-md-2 text-right">
-                <a href="{{ action('TabsController@destroy', $tab->id)}}" class="btn btn-danger btn-sm">delete</a>
+                <a href="#" class="btn btn-danger btn-sm" onClick="kakunin()">削除</a>
               </div>
             </div>
+            <script>
+            function kakunin(){
+              ret = confirm("本当に削除しますか？");
+              if (ret == true){
+                location.href = "{{ action('TabsController@destroy', $tab->id)}}";
+              }else{
+                return true;
+              }
+            }
+            </script>
           </li>
           @endforeach
         @else
