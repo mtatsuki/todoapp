@@ -26,7 +26,7 @@ class TabsController extends Controller
 
   public function destroy($id)
   {
-    $task =  Tab::where('tab_id',$id);
+    $task =  Tab::where('id',$id);
     $task->delete();
     return back();
   }

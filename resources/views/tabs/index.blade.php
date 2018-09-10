@@ -57,7 +57,7 @@
                 {{$tab->tab_name}}
               </div>
               <div class="col-md-2 text-right">
-                <a href="{{ action('TabsController@destroy', $tab->tab_id)}}" class="btn btn-danger btn-sm">delete</a>
+                <a href="{{ action('TabsController@destroy', $tab->id)}}" class="btn btn-danger btn-sm">delete</a>
               </div>
             </div>
           </li>

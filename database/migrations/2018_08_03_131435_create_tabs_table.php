@@ -14,7 +14,9 @@ class CreateTabsTable extends Migration
     public function up()
     {
         Schema::create('tabs', function (Blueprint $table) {
-            $table->increments('tab_id');
+            $table->engine = 'InnoDB';
+
+            $table->increments('id');
             $table->string('tab_name');
         });
     }
@@ -26,6 +28,7 @@ class CreateTabsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('tasks');
         Schema::dropIfExists('tabs');
     }
 }

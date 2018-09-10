@@ -14,9 +14,11 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('task_id');
             $table->integer('user_id')->unsigned();
-            $table->integer('tab_id')->nullable();
+            $table->integer('tab_id')->unsigned();
             $table->string('task');
             $table->enum('do_flg', ['done', 'yet'])->default('yet');
             $table->timestamps();
@@ -25,6 +27,14 @@ class CreateTasksTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+            
+            $table->foreign('tab_id')
+                  ->references('id')
+                  ->on('tabs')
+                  ->onDelete('cascade');
+
+            //$table->unique(['user_id', 'tab_id']);
+            
         });
     }
 

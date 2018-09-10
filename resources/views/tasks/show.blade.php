@@ -14,7 +14,7 @@
           @if ($tabs->isNotEmpty())
             @foreach ($tabs as $tab)
             <li class="nav-item">
-              <a class="nav-link <?php if ($tab->tab_id == $tab_id) echo 'active' ?>" href="{{ action('TasksController@show', $tab->tab_id)}}">{{$tab->tab_name}}</a>
+              <a class="nav-link <?php if ($tab->id == $id) echo 'active' ?>" href="{{ action('TasksController@show', $tab->id)}}">{{$tab->tab_name}}</a>
             </li>
             @endforeach
           @endif
@@ -44,7 +44,7 @@
                   <div class="form-group">
                     <label for="InputTask">タスク名</label>
                     <input type="text" class="form-control" name="task" id="InputTask" placeholder="Enter task" required>
-                    <input type="hidden" value="{{$tab_id}}" name="tab_id">
+                    <input type="hidden" value="{{$id}}" name="tab_id">
                   </div>
               </div>
               <div class="modal-footer">

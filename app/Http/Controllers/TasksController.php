@@ -38,7 +38,7 @@ class TasksController extends Controller
       $tabs = Tab::all();
       $tabs -> toArray();
 
-      return view('tasks.show',['items' => $items],['tabs' => $tabs])->with('tab_id',$id);
+      return view('tasks.show',['items' => $items],['tabs' => $tabs])->with('id',$id);
     }
 
     public function check($id)

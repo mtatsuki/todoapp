@@ -14,7 +14,7 @@
           @if ($tabs->isNotEmpty())
             @foreach ($tabs as $tab)
             <li class="nav-item">
-              <a class="nav-link" href="{{ action('TasksController@show', $tab->tab_id)}}">{{$tab->tab_name}}</a>
+              <a class="nav-link" href="{{ action('TasksController@show', $tab->id)}}">{{$tab->tab_name}}</a>
             </li>
             @endforeach
           @endif
