@@ -57,17 +57,28 @@
                 {{$tab->tab_name}}
               </div>
               <div class="col-md-2 text-right">
-                <a href="#" class="btn btn-danger btn-sm" onClick="kakunin()">削除</a>
+                <a href="#" class="btn btn-danger btn-sm" onClick="kakunin({{$tab->id}})">削除</a>
               </div>
             </div>
             <script>
-            function kakunin(){
-              ret = confirm("本当に削除しますか？");
-              if (ret == true){
-                location.href = "{{ action('TabsController@destroy', $tab->id)}}";
-              }else{
-                return true;
-              }
+            function kakunin(id){
+              $.ajax({
+                method: "GET",
+                url: "/api/tab/cnt/"+ id,
+                dataType: "json",
+              })
+              //受け取り完了時　失敗はfail
+              .done(function( msg ) {
+                console.log(msg);
+                ret = confirm("未実行のタスクが" + msg.yet_cnt + "件あります。本当に削除しますか？");
+                if (ret == true){
+                  location.href = "{{ action('TabsController@destroy', $tab->id)}}";
+                }else{
+                  return true;
+                }
+              });
+
+
             }
             </script>
           </li>
