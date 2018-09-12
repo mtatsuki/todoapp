@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tab;
-
+use App\Task;
 class TabsController extends Controller
 {
   public function index(Request $request)
@@ -26,8 +26,14 @@ class TabsController extends Controller
 
   public function destroy($id)
   {
-    $task =  Tab::where('id',$id);
-    $task->delete();
+    $tab =  Tab::where('id',$id);
+    $tab->delete();
     return back();
+  }
+  public function cnt($id){
+    $tasks = Task::where('tab_id',$id)->where('do_flg','yet')->count();
+    return response()->json([
+      'yet_cnt' => $tasks,
+    ]);
   }
 }

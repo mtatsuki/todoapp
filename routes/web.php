@@ -27,6 +27,7 @@ Route::get('/task/destroy/{id}', 'TasksController@destroy')
 Route::resource('/tab', 'TabsController')
   ->middleware('auth');
 
+
 Route::get('/tab/destroy/{id}', 'TabsController@destroy')
   ->middleware('auth');
 
