@@ -30,6 +30,21 @@ class TabsController extends Controller
     $tab->delete();
     return back();
   }
+
+  public function edit($id){
+    $tabs = Tab::where('id',$id)->first();;
+    return view('tabs.edit',['tabs' => $tabs]);
+  }
+
+  public function update(Request $request,$id){
+    $tab = Tab::find($id);
+    //値を代入
+    $tab->tab_name = $request->tab_name;
+    //保存（更新）
+    $tab->save();
+    //リダイレクト
+    return redirect()->to('/tab');
+  }
   public function cnt($id){
     $tasks = Task::where('tab_id',$id)->where('do_flg','yet')->count();
     return response()->json([
