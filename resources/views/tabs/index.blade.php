@@ -56,7 +56,10 @@
               <div class="col-md-10">
                 {{$tab->tab_name}}
               </div>
-              <div class="col-md-2 text-right">
+              <div class="col-md-1">
+                <a href="{{ url('tab/'.$tab->id.'/edit') }}" class="btn btn-success btn-sm">編集</a>
+              </div>
+              <div class="col-md-1 text-right">
                 <a href="#" class="btn btn-danger btn-sm" onClick="kakunin({{$tab->id}})">削除</a>
               </div>
             </div>
@@ -67,7 +70,7 @@
                 url: "/api/tab/cnt/"+ id,
                 dataType: "json",
               })
-              //受け取り完了時　失敗はfail
+              //受け取り完了時　失敗は.fail
               .done(function( msg ) {
                 console.log(msg);
                 ret = confirm("未実行のタスクが" + msg.yet_cnt + "件あります。本当に削除しますか？");
