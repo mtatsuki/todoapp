@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('tab_id')->unsigned();
             $table->string('task');
-            $table->enum('do_flg', ['done', 'yet'])->default('yet');
+            $table->enum('do_flg', [0,1])->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')
