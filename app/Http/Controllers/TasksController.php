@@ -11,7 +11,9 @@ class TasksController extends Controller
 {
     public function index(Request $request)
     {
-        $items = Task::orderBy('task_id','DESC')->get();
+        $items = Task::orderBy('do_flg','ASC')
+                ->join('tabs','tabs.id','=','tasks.tab_id')
+                ->get();
         $items -> toArray();
 
         $tabs = Tab::all();
@@ -32,7 +34,7 @@ class TasksController extends Controller
 
     public function show($id)
     {
-      $items = Task::where('tab_id',$id)->orderBy('task_id','DESC')->get();
+      $items = Task::where('tab_id',$id)->orderBy('do_flg','ASC')->get();
       $items -> toArray();
 
       $tabs = Tab::all();
@@ -41,12 +43,19 @@ class TasksController extends Controller
       return view('tasks.show',['items' => $items],['tabs' => $tabs])->with('id',$id);
     }
 
+    public function update(Request $request,$id){
+      $tab = Tab::where('tab_name', $request->tab_name)->value('id');
+      $task = Task::where('task_id',$id)->update(['task' => $request->task,'tab_id' => $tab]);
+      //リダイレクト
+      return back();
+    }
+
     public function check($id)
     {
-      if(Task::where('task_id','=',$id)->value('do_flg') == 'yet'){
-        $task = Task::where('task_id',$id)->update(['do_flg' => 'done']);
+      if(Task::where('task_id','=',$id)->value('do_flg') == '0'){
+        $task = Task::where('task_id',$id)->update(['do_flg' => '1']);
       }else{
-        $task = Task::where('task_id',$id)->update(['do_flg' => 'yet']);
+        $task = Task::where('task_id',$id)->update(['do_flg' => '0']);
       }
       return back();
     }
