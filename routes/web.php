@@ -21,6 +21,9 @@ Route::resource('/task', 'TasksController')
 Route::get('/task/check/{id}', 'TasksController@check')
   ->middleware('auth');
 
+Route::post('/task/update/{id}', 'TasksController@update')
+  ->middleware('auth');
+
 Route::get('/task/destroy/{id}', 'TasksController@destroy')
   ->middleware('auth');
 
