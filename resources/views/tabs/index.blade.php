@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-
+        <!-- Modal End -->
       </div>
     </div>
     <div class="card">
@@ -57,7 +57,7 @@
                 {{$tab->tab_name}}
               </div>
               <div class="col-md-1">
-                <a href="{{ url('tab/'.$tab->id.'/edit') }}" class="btn btn-success btn-sm">編集</a>
+                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModalCenter">編集</a>
               </div>
               <div class="col-md-1 text-right">
                 <a href="#" class="btn btn-danger btn-sm" onClick="kakunin({{$tab->id}})">削除</a>
@@ -85,6 +85,36 @@
             }
             </script>
           </li>
+
+              <!-- Modal -->
+              <div class="modal fade" id="updateModalCenter" tabindex="-1" role="dialog" aria-labelledby="updateModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="updateModalCenterTitle">タスクの編集</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form method="post" action="{{url('/tab/update/'.$tab->id)}}">
+            {{ csrf_field() }}
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="UpdateTab">タブ名</label>
+                <input type="text" class="form-control" name="tab_name" id="UpdateTab" value="{{ $tab->tab_name }}" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+              <input type="submit" class="btn btn-primary" value="編集">
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        <!-- Modal End -->
+
           @endforeach
         @else
           <li class="list-group-item">現在、タブはありません。</li>
