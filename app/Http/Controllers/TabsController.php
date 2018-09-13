@@ -31,16 +31,9 @@ class TabsController extends Controller
     return back();
   }
 
-  public function edit($id){
-    $tabs = Tab::where('id',$id)->first();;
-    return view('tabs.edit',['tabs' => $tabs]);
-  }
-
   public function update(Request $request,$id){
     $tab = Tab::find($id);
-    //値を代入
     $tab->tab_name = $request->tab_name;
-    //保存（更新）
     $tab->save();
     //リダイレクト
     return redirect()->to('/tab');
