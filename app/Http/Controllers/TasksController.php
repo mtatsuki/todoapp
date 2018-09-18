@@ -16,7 +16,9 @@ class TasksController extends Controller
 
     public function index(Request $request)
     {
-        $items = Task::orderBy('do_flg','ASC')
+        $id = Auth::id();
+        $items = Task::where('user_id',$id)
+                ->orderBy('do_flg','ASC')
                 ->join('tabs','tabs.id','=','tasks.tab_id')
                 ->get();
         $items -> toArray();
