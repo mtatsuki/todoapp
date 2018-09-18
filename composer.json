@@ -38,6 +38,14 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "chmod -R 777 storage"
+        ],
+        "compile": [
+            "@php -r \"file_exists('.env') || copy('.env.heroku', '.env');\"",
+            "@php artisan key:generate"
+        ],
+
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
