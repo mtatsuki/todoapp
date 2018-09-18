@@ -39,7 +39,7 @@ class TabsController extends Controller
     return redirect()->to('/tab');
   }
   public function cnt($id){
-    $tasks = Task::where('tab_id',$id)->where('do_flg','yet')->count();
+    $tasks = Task::where('tab_id',$id)->where('do_flg','0')->count();
     return response()->json([
       'yet_cnt' => $tasks,
     ]);
