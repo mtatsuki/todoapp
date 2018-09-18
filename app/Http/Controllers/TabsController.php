@@ -7,6 +7,11 @@ use App\Tab;
 use App\Task;
 class TabsController extends Controller
 {
+
+  public function __construct() {
+    $this->middleware('auth');
+    }
+    
   public function index(Request $request)
   {
       $tabs = Tab::all();

@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
+
+    public function __construct() {
+     $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $items = Task::orderBy('do_flg','ASC')
