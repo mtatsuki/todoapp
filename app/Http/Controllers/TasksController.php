@@ -27,7 +27,7 @@ class TasksController extends Controller
       $task = new Task;
       $task->user_id = Auth::id();
       $task->tab_id = $request->tab_id;
-      $task->task = $id = $request->task;
+      $task->task = $request->task;
       $task->save();
       return back();
     }
