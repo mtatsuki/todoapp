@@ -102,11 +102,10 @@
                 <label for="exampleFormControlSelect1">タブの変更</label>
                 <select class="form-control" name="tab_name" id="exampleFormControlSelect1">
                 @foreach($tabs as $tab)
-                  <option>{{ $tab->tab_name }}</option>
+                  <option @if($tab->id == $id) selected="selected" @endif>{{ $tab->tab_name }}</option>
                 @endforeach
                 </select>
               </div>
-
               <div class="form-group">
                 <label for="UpdateTask">タスク名</label>
                 <input type="text" class="form-control" name="task" id="UpdateTask" value="{{ $item->task }}" required>

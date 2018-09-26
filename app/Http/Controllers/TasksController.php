@@ -17,13 +17,13 @@ class TasksController extends Controller
     public function index(Request $request)
     {
         $id = Auth::id();
-        $items = Task::where('user_id',$id)
+        $items = Task::where('tasks.user_id',$id)
                 ->orderBy('do_flg','ASC')
                 ->join('tabs','tabs.id','=','tasks.tab_id')
                 ->get();
         $items -> toArray();
 
-        $tabs = Tab::all();
+        $tabs = Tab::where('user_id',$id)->get();
         $tabs -> toArray();
 
         return view('tasks.index',['items' => $items],['tabs' => $tabs]);
@@ -41,18 +41,27 @@ class TasksController extends Controller
 
     public function show($id)
     {
-      $items = Task::where('tab_id',$id)->orderBy('do_flg','ASC')->get();
+      //page not found
+      if(Tab::where('id',$id)->value('user_id') !== Auth::id()){
+        return abort(404);
+      }
+
+      $items = Task::where('tab_id',$id)->where('user_id',Auth::id())->orderBy('do_flg','ASC')->get();
       $items -> toArray();
 
-      $tabs = Tab::all();
+      $tabs = Tab::where('user_id',Auth::id())->get();
       $tabs -> toArray();
 
       return view('tasks.show',['items' => $items],['tabs' => $tabs])->with('id',$id);
     }
 
     public function update(Request $request,$id){
-      $tab = Tab::where('tab_name', $request->tab_name)->value('id');
-      $task = Task::where('task_id',$id)->update(['task' => $request->task,'tab_id' => $tab]);
+      if(Task::where('task_id',$id)->value('user_id') !== Auth::id()){
+        return abort(404);
+      }
+      
+      $tab = Tab::where('tab_name', $request->tab_name)->where('user_id', Auth::id())->value('id');
+      $task = Task::where('task_id',$id)->where('user_id', Auth::id())->update(['task' => $request->task,'tab_id' => $tab]);
       //リダイレクト
       return back();
     }
@@ -60,16 +69,20 @@ class TasksController extends Controller
     public function check($id)
     {
       if(Task::where('task_id','=',$id)->value('do_flg') == '0'){
-        $task = Task::where('task_id',$id)->update(['do_flg' => '1']);
+        $task = Task::where('task_id',$id)->where('user_id', Auth::id())->update(['do_flg' => '1']);
       }else{
-        $task = Task::where('task_id',$id)->update(['do_flg' => '0']);
+        $task = Task::where('task_id',$id)->where('user_id', Auth::id())->update(['do_flg' => '0']);
       }
       return back();
     }
 
     public function destroy($id)
     {
-      $task =  Task::where('task_id',$id);
+      if(Task::where('task_id',$id)->value('user_id') !== Auth::id()){
+        return abort(404);
+      }
+      
+      $task = Task::where('task_id',$id)->where('user_id', Auth::id());
       $task->delete();
       return back();
     }

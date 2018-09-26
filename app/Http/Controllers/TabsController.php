@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Tab;
 use App\Task;
+
 class TabsController extends Controller
 {
 
@@ -14,9 +16,9 @@ class TabsController extends Controller
     
   public function index(Request $request)
   {
-      $tabs = Tab::all();
+      $id = Auth::id();
+      $tabs = Tab::where('user_id',$id)->get();
       $tabs -> toArray();
-
       return view('tabs.index',['tabs' => $tabs]);
   }
 
@@ -24,6 +26,7 @@ class TabsController extends Controller
   {
     $tab = new Tab;
     $tab->tab_name = $request->tab_name;
+    $tab->user_id = Auth::id();
     $tab->timestamps = false;
     $tab->save();
     return redirect('/tab');
@@ -31,22 +34,24 @@ class TabsController extends Controller
 
   public function destroy($id)
   {
-    $tab =  Tab::where('id',$id);
+    if(Tab::where('id',$id)->value('user_id') !== Auth::id()){
+      return abort(404);
+    }
+    $tab = Tab::where('id',$id);
     $tab->delete();
     return back();
   }
 
   public function update(Request $request,$id){
+    if(Tab::where('id',$id)->value('user_id') !== Auth::id()){
+      return abort(404);
+    }
+
     $tab = Tab::find($id);
     $tab->tab_name = $request->tab_name;
+    $tab->user_id = Auth::id();
     $tab->save();
     //リダイレクト
     return redirect()->to('/tab');
-  }
-  public function cnt($id){
-    $tasks = Task::where('tab_id',$id)->where('do_flg','0')->count();
-    return response()->json([
-      'yet_cnt' => $tasks,
-    ]);
   }
 }

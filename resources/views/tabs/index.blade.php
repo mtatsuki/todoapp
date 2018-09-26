@@ -63,27 +63,6 @@
                 <a href="#" class="btn btn-danger btn-sm" onClick="kakunin({{$tab->id}})">削除</a>
               </div>
             </div>
-            <script>
-            function kakunin(id){
-              $.ajax({
-                method: "GET",
-                url: "/api/tab/cnt/"+ id,
-                dataType: "json",
-              })
-              //受け取り完了時　失敗は.fail
-              .done(function( msg ) {
-                console.log(msg);
-                ret = confirm("未実行のタスクが" + msg.yet_cnt + "件あります。本当に削除しますか？");
-                if (ret == true){
-                  location.href = "{{ action('TabsController@destroy', $tab->id)}}";
-                }else{
-                  return true;
-                }
-              });
-
-
-            }
-            </script>
           </li>
 
               <!-- Modal -->
@@ -124,4 +103,23 @@
   </div>
 </div>
 
+<script>
+  function kakunin(id){
+    $.ajax({
+      method: "GET",
+      url: "/api/tab/cnt/"+ id,
+      dataType: "json",
+    })
+    //受け取り完了時　失敗は.fail
+    .done(function( msg ) {
+      console.log(msg);
+      ret = confirm("未実行のタスクが" + msg.yet_cnt + "件あります。本当に削除しますか？");
+      if (ret == true){
+        location.href = "/tab/destroy/"+ id;
+      }else{
+        return true;
+      }
+    });
+  }
+</script>
 @endsection
